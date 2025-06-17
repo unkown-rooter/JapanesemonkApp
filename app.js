@@ -4,11 +4,11 @@
     "slug": "japanesemonk-business-suite",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./splash-icon.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,18 +17,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.japanesemonk.businesssuite"
+      "package": "com.japanesemonk.japanesemonkbusinesssuite"
     },
     "web": {
-      "favicon": "./icon.png"
+      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "1852a962-05d0-4d66-a606-668713e2da2e"
+        "projectId": "52fcefc8-1716-4c12-805d-d22XXXXXXX"
       }
     }
   }
