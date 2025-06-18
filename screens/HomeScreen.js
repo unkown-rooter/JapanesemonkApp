@@ -1,65 +1,91 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const today = new Date().toDateString(); // Shows current date
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Welcome to JapaneseMonkApp</Text>
-        <Text style={styles.date}>{today}</Text>
-      </View>
+      <Image
+        source={require('../assets/japanesemonk-logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Products')}>
-        <Text style={styles.buttonText}>🛍️ View Products</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Loans')}>
-        <Text style={styles.buttonText}>💰 Loan Calculator</Text>
-      </TouchableOpacity>
+      <Text style={styles.title}>Welcome to JapanesemonkApp</Text>
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('About')}>
-        <Text style={styles.buttonText}>ℹ️ About</Text>
+        <Text style={styles.buttonText}>About</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewProducts')}>
+        <Text style={styles.buttonText}>View Products</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanApplication')}>
+        <Text style={styles.buttonText}>Loan Application</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanCalculator')}>
+        <Text style={styles.buttonText}>Loan Calculator</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanRepayment')}>
+        <Text style={styles.buttonText}>Loan Repayment</Text>
+      </TouchableOpacity>
+
+      <View style={styles.footer}>
+        <Image
+          source={require('../assets/japanesemonk-logo.png')}
+          style={styles.footerLogo}
+        />
+        <Text style={styles.footerText}>Powered by Japanesemonk</Text>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#F8F9FA',
-    flexGrow: 1,
-    justifyContent: 'center',
+    paddingVertical: 40,
+    paddingHorizontal: 20,
     alignItems: 'center',
   },
-  header: {
-    marginBottom: 20,
-    alignItems: 'center',
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: '#1E1E1E',
-  },
-  date: {
-    fontSize: 16,
-    color: '#555',
-    marginTop: 4,
+    marginBottom: 30,
   },
   button: {
-    width: '90%',
-    padding: 15,
-    backgroundColor: '#0066CC',
-    marginVertical: 10,
-    borderRadius: 12,
+    backgroundColor: '#000',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginBottom: 15,
+    width: '100%',
     alignItems: 'center',
   },
   buttonText: {
-    color: '#FFF',
+    color: '#fff',
     fontSize: 16,
+  },
+  footer: {
+    marginTop: 40,
+    alignItems: 'center',
+  },
+  footerLogo: {
+    width: 50,
+    height: 50,
+    marginBottom: 5,
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#888',
   },
 });

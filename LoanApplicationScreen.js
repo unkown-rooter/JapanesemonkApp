@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import BackgroundWrapper from './BackgroundWrapper';
 
-export default function LoanRepaymentScreen() {
-  const [repayment, setRepayment] = useState('');
+export default function LoanApplicationScreen() {
+  const [amount, setAmount] = useState('');
 
   return (
     <BackgroundWrapper>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Loan Repayment</Text>
+        <Text style={styles.title}>Apply for a Loan</Text>
         <TextInput
-          placeholder="Enter repayment amount"
-          value={repayment}
-          onChangeText={setRepayment}
+          placeholder="Enter loan amount"
+          value={amount}
+          onChangeText={setAmount}
           style={styles.input}
         />
-        <Button title="Pay Now" onPress={() => console.log('Repayment submitted')} />
+        <Button title="Submit" onPress={() => console.log('Loan requested')} />
       </ScrollView>
     </BackgroundWrapper>
   );
