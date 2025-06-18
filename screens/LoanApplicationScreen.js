@@ -1,78 +1,113 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import LogoBackground from '../components/LogoBackground';
 
 export default function LoanApplicationScreen() {
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+  const [form, setForm] = useState({
+    name: '',
+    idNumber: '',
+    loanAmount: '',
+    phoneNumber: '',
+    loanPurpose: '',
+    date: '',
+  });
 
-  const handleSubmit = async () => {
-    if (!name || !amount) {
-      Alert.alert('⚠️ Missing Info', 'Please fill in all fields.');
-      return;
-    }
+  const handleChange = (field, value) => {
+    setForm({ ...form, [field]: value });
+  };
 
-    try {
-      const response = await fetch('http://localhost:3000/api/loans/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, amount }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        Alert.alert('✅ Success', `Thank you ${name}, we received your loan application.`);
-        setName('');
-        setAmount('');
-      } else {
-        Alert.alert('❌ Failed', data.message || 'Something went wrong.');
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert('❌ Error', 'Network error. Make sure the backend is running.');
-    }
+  const handleSubmit = () => {
+    // Add submit logic later
+    alert(`Thank you ${form.name}, we received your loan application.`);
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <LogoBackground>
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Loan Application</Text>
+
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
-          value={name}
-          onChangeText={setName}
+          placeholder="Member Name"
+          placeholderTextColor="#999"
+          value={form.name}
+          onChangeText={(text) => handleChange('name', text)}
         />
+
+        <TextInput
+          style={styles.input}
+          placeholder="ID Number"
+          placeholderTextColor="#999"
+          keyboardType="numeric"
+          value={form.idNumber}
+          onChangeText={(text) => handleChange('idNumber', text)}
+        />
+
         <TextInput
           style={styles.input}
           placeholder="Loan Amount"
-          value={amount}
-          onChangeText={setAmount}
+          placeholderTextColor="#999"
           keyboardType="numeric"
+          value={form.loanAmount}
+          onChangeText={(text) => handleChange('loanAmount', text)}
         />
-        <Button title="Submit Application" onPress={handleSubmit} />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          placeholderTextColor="#999"
+          keyboardType="phone-pad"
+          value={form.phoneNumber}
+          onChangeText={(text) => handleChange('phoneNumber', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Loan Purpose"
+          placeholderTextColor="#999"
+          value={form.loanPurpose}
+          onChangeText={(text) => handleChange('loanPurpose', text)}
+        />
+
+        <Text style={styles.info}>Repayment Period: 2 Weeks</Text>
+        <Text style={styles.info}>Interest: 20%</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Date of Application"
+          placeholderTextColor="#999"
+          value={form.date}
+          onChangeText={(text) => handleChange('date', text)}
+        />
+
+        <Button title="Submit Loan" onPress={handleSubmit} />
       </ScrollView>
-    </KeyboardAvoidingView>
+    </LogoBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: {
-    flexGrow: 1,
-    justifyContent: 'center',
+  container: {
     padding: 20,
+    gap: 12,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#fff',
     textAlign: 'center',
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    marginBottom: 15,
     padding: 10,
+    color: '#fff',
     borderRadius: 8,
+    backgroundColor: '#222',
+  },
+  info: {
+    color: '#ccc',
+    fontStyle: 'italic',
+    marginBottom: 5,
   },
 });
