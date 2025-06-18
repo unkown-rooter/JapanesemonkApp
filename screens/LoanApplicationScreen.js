@@ -1,116 +1,78 @@
-
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-  ScrollView
-} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 export default function LoanApplicationScreen() {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState('');
-  const [purpose, setPurpose] = useState('');
 
   const handleSubmit = async () => {
-    if (!name || !phone || !amount || !purpose) {
-      Alert.alert('Missing Fields', 'Please fill in all fields.');
+    if (!name || !amount) {
+      Alert.alert('⚠️ Missing Info', 'Please fill in all fields.');
       return;
     }
 
-    const numericAmount = parseFloat(amount);
-    const interest = numericAmount * 0.2; // 20%
-    const totalRepayment = numericAmount + interest;
-    const repaymentPeriod = '2 weeks';
-
-    const loanData = {
-      name,
-      phone,
-      amount: numericAmount,
-      purpose,
-      totalRepayment,
-      repaymentPeriod,
-    };
-
     try {
-      const response = await fetch('http://192.168.74.11:5000/api/loans', {
+      const response = await fetch('http://localhost:3000/api/loans/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loanData),
+        body: JSON.stringify({ name, amount }),
       });
 
+      const data = await response.json();
       if (response.ok) {
-        Alert.alert('✅ Success', `Loan submitted!\nTotal Repayment: Ksh ${totalRepayment.toFixed(2)} in ${repaymentPeriod}`);
+        Alert.alert('✅ Success', `Thank you ${name}, we received your loan application.`);
         setName('');
-        setPhone('');
         setAmount('');
-        setPurpose('');
       } else {
-        Alert.alert('❌ Server Error', 'Something went wrong on the backend.');
+        Alert.alert('❌ Failed', data.message || 'Something went wrong.');
       }
     } catch (error) {
-      Alert.alert('🔌 Network Error', 'Could not reach backend. Check your IP and hotspot.');
+      console.error(error);
+      Alert.alert('❌ Error', 'Network error. Make sure the backend is running.');
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Loan Application</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Full Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Phone Number"
-        keyboardType="phone-pad"
-        value={phone}
-        onChangeText={setPhone}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Loan Amount (Ksh)"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={setAmount}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Purpose"
-        value={purpose}
-        onChangeText={setPurpose}
-      />
-
-      <Button title="Submit Loan Application" onPress={handleSubmit} />
-    </ScrollView>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>Loan Application</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Full Name"
+          value={name}
+          onChangeText={setName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Loan Amount"
+          value={amount}
+          onChangeText={setAmount}
+          keyboardType="numeric"
+        />
+        <Button title="Submit Application" onPress={handleSubmit} />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
+  container: { flex: 1 },
+  content: {
     flexGrow: 1,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    padding: 20,
   },
-  header: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
   },
   input: {
-    borderColor: '#ccc',
     borderWidth: 1,
-    padding: 12,
-    borderRadius: 10,
+    borderColor: '#ccc',
     marginBottom: 15,
+    padding: 10,
+    borderRadius: 8,
   },
 });
