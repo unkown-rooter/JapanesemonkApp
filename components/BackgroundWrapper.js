@@ -4,7 +4,7 @@ import { ImageBackground, StyleSheet } from 'react-native';
 export default function BackgroundWrapper({ children }) {
   return (
     <ImageBackground
-      source={require('./assets/japanesemonk-logo.png')}
+      source={require('../assets/Japanesemonk-logo.png')}
       style={styles.background}
       resizeMode="cover"
     >
@@ -16,7 +16,7 @@ export default function BackgroundWrapper({ children }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

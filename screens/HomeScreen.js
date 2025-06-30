@@ -1,34 +1,73 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import LogoBackground from '../components/LogoBackground';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
-
+const HomeScreen = ({ navigation }) => {
   return (
-    <LogoBackground>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Welcome to Japanesemonk App</Text>
-        <Button title="View Products" onPress={() => navigation.navigate('Products')} />
-        <Button title="Apply for Loan" onPress={() => navigation.navigate('LoanApplication')} />
-        <Button title="Loan Repayment" onPress={() => navigation.navigate('LoanRepayment')} />
-        <Button title="About Us" onPress={() => navigation.navigate('About')} />
-      </ScrollView>
-    </LogoBackground>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>JapanesemonkApp 🧘‍♂️</Text>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Products')}>
+        <Text style={styles.buttonText}>Products</Text>
+      </TouchableOpacity>
+
+<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanRepaymentEntry')}>
+  <Text style={styles.buttonText}>Enter Repayment</Text>
+</TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanApplication')}>
+        <Text style={styles.buttonText}>Loan Application</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanCalculator')}>
+        <Text style={styles.buttonText}>Loan Calculator</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoanRepaymentSchedule')}>
+        <Text style={styles.buttonText}>Loan Repayment Schedule</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('About')}>
+        <Text style={styles.buttonText}>About</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.footer}>Powered by Japanesemonk™</Text>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    flexGrow: 1,
     justifyContent: 'center',
-    gap: 20,
-    paddingVertical: 40,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 40,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#444',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '100%',
+  },
+  buttonText: {
     color: '#fff',
-    marginBottom: 20,
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  footer: {
+    marginTop: 40,
+    fontSize: 14,
+    color: '#888',
+    textAlign: 'center',
   },
 });
+
+export default HomeScreen;

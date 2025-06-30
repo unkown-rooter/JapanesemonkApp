@@ -1,69 +1,80 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import LogoBackground from '../components/LogoBackground';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-export default function LoanRepaymentScreen() {
-  const [memberName, setMemberName] = useState('');
-  const [amountPaid, setAmountPaid] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
+const dummyRepayments = [
+  {
+    id: '1',
+    name: 'Alice Wanjiku',
+    loanAmount: 1000,
+    repaid: 400,
+  },
+  {
+    id: '2',
+    name: 'Brian Otieno',
+    loanAmount: 2000,
+    repaid: 1200,
+  },
+  {
+    id: '3',
+    name: 'Cynthia Mwikali',
+    loanAmount: 1500,
+    repaid: 700,
+  },
+];
 
-  const handleSubmit = () => {
-    alert(`Thank you ${memberName}, your repayment of Ksh ${amountPaid} was received.`);
+const LoanRepaymentScreen = () => {
+  const renderItem = ({ item }) => {
+    const balance = item.loanAmount - item.repaid;
+
+    return (
+      <View style={styles.card}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text>Loan: KES {item.loanAmount}</Text>
+        <Text>Repaid: KES {item.repaid}</Text>
+        <Text style={styles.balance}>Balance Left: KES {balance}</Text>
+      </View>
+    );
   };
 
   return (
-    <LogoBackground>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Loan Repayment</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Member Name"
-          placeholderTextColor="#999"
-          value={memberName}
-          onChangeText={setMemberName}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Amount Paid"
-          placeholderTextColor="#999"
-          keyboardType="numeric"
-          value={amountPaid}
-          onChangeText={setAmountPaid}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Payment Date"
-          placeholderTextColor="#999"
-          value={paymentDate}
-          onChangeText={setPaymentDate}
-        />
-
-        <Button title="Submit Payment" onPress={handleSubmit} />
-      </ScrollView>
-    </LogoBackground>
+    <View style={styles.container}>
+      <Text style={styles.title}>Loan Repayment Schedule</Text>
+      <FlatList
+        data={dummyRepayments}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
+      <Text style={styles.footer}>Powered by Japanesemonk™</Text>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    gap: 12,
+    flex: 1, padding: 20, backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 10,
+    fontSize: 22, fontWeight: 'bold', marginBottom: 20, textAlign: 'center',
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    color: '#fff',
-    borderRadius: 8,
-    backgroundColor: '#222',
+  card: {
+    backgroundColor: '#f2f2f2',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  name: {
+    fontSize: 18, fontWeight: 'bold',
+  },
+  balance: {
+    color: 'red', fontWeight: 'bold',
+  },
+  footer: {
+    textAlign: 'center',
+    marginTop: 20,
+    color: '#999',
+    fontSize: 14,
   },
 });
+
+export default LoanRepaymentScreen;
